@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from 'dotenv';
 import cors from "cors";
 import fareRoutes from './routes/fareRoutes.js';
+import ridesRoutes from './routes/ridesRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/fare', fareRoutes);
+app.use("/", ridesRoutes);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost/${port}`);
