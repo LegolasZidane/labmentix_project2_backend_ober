@@ -1,3 +1,10 @@
+const dummyDriver = {
+    id: "driver_123",
+    name: "John Doe",
+    vehicle: "Toyota Prius",
+    phone: "+91-9876543210"
+};
+
 export const requestRide = (req, res) => {
 
     const { origin, destination } = req.body;
@@ -12,9 +19,11 @@ export const requestRide = (req, res) => {
         destination,
         status: "requested",
         requestedAt: new Date(),
+        driverId: dummyDriver.id
     };
 
-    console.log("Ride requested:", ride);
-
-    res.status(201).json(ride);
+    res.status(201).json({
+        ...ride,
+        driver: dummyDriver
+    });
 };
