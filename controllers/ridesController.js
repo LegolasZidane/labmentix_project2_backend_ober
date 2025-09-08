@@ -1,3 +1,5 @@
+import { calculateFare } from "../utils/fareUtils.js";
+
 const dummyDriver = {
     id: "driver_123",
     name: "John Doe",
@@ -5,7 +7,7 @@ const dummyDriver = {
     phone: "+91-9876543210"
 };
 
-export const requestRide = (req, res) => {
+export const requestRide = async (req, res) => {
 
     const { origin, destination } = req.body;
 
@@ -13,17 +15,30 @@ export const requestRide = (req, res) => {
         return res.status(400).json({ error: "Origin and destination required" });
     }
 
-    const ride = {
-        id: Date.now(),
-        origin,
-        destination,
-        status: "requested",
-        requestedAt: new Date(),
-        driverId: dummyDriver.id
-    };
+    try {
 
-    res.status(201).json({
-        ...ride,
-        driver: dummyDriver
-    });
+        const { distance, fare } = await calculateFare(origin, destination);
+
+        const ride = {
+
+            id: Date.now(),
+            origin,
+            destination,
+            status: "requested",
+            requestedAt: new Date(),
+            driverId: dummyDriver.id,
+            driver: dummyDriver,
+            distance,
+            fare
+
+        };
+
+        res.status(201).json(ride);
+
+    }   catch(err) {
+
+        console.error("Error creating ride:", err.message);
+        res.status(500).json({ error: "Failed to request ride" });
+
+    }
 };
