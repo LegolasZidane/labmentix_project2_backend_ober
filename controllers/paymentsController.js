@@ -29,8 +29,8 @@ export const createCheckoutSession = async (req, res) => {
                     quantity: 1
                 }
             ],
-            success_url: "http://localhost:5173/payment-success",
-            cancel_url: "http://localhost:5173/payment-cancel"
+            success_url: "https://labmentix-project2-backend-ober.onrender.com/payment-success",
+            cancel_url: "https://labmentix-project2-backend-ober.onrender.com/payment-cancel"
         });
 
         res.json({ url: session.url });
